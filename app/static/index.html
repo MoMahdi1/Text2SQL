@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ask questions about employee data in natural language." />
+    <title>Text2SQL</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <main class="shell">
+      <header class="hero">
+        <div class="eyebrow"><span></span> READ-ONLY AI ANALYST</div>
+        <h1>Ask your employee data.</h1>
+        <p>Describe what you need in natural language. The agent inspects the schema, creates safe SQL, and returns the answer.</p>
+      </header>
+
+      <section class="query-card">
+        <form id="query-form">
+          <label for="question">Your question</label>
+          <div class="input-row">
+            <input id="question" name="question" type="text" minlength="3" maxlength="500" placeholder="e.g. Who was late today?" autocomplete="off" required />
+            <button id="submit-button" type="submit">
+              <span>Run query</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </button>
+          </div>
+        </form>
+        <div class="suggestions" aria-label="Example questions">
+          <button type="button" data-question="Who was late today?">Late today</button>
+          <button type="button" data-question="Who checked in after the grace period this week?">Late this week</button>
+          <button type="button" data-question="Who checked in without checking out?">Missing check-out</button>
+          <button type="button" data-question="Show Omar Hassan's attendance history">Employee history</button>
+        </div>
+      </section>
+
+      <div id="status" class="status hidden" role="status"></div>
+
+      <section id="result" class="result-grid hidden" aria-live="polite">
+        <article class="panel data-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="kicker">RESULT</span>
+              <h2>Query output</h2>
+            </div>
+            <span id="row-count" class="row-count"></span>
+          </div>
+          <div class="table-wrap"><table id="result-table"></table></div>
+        </article>
+
+        <aside class="side-stack">
+          <article class="panel">
+            <span class="kicker">GENERATED SQL</span>
+            <pre><code id="sql-output"></code></pre>
+          </article>
+          <article class="panel">
+            <span class="kicker">WORKFLOW</span>
+            <ol id="workflow-steps" class="steps"></ol>
+          </article>
+        </aside>
+      </section>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
