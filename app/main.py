@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -19,6 +20,7 @@ app = FastAPI(
     description="A read-only natural-language-to-SQL agent for employee data.",
 )
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+logger = logging.getLogger(__name__)
 
 
 @app.exception_handler(AgentError)
@@ -48,6 +50,7 @@ async def query_database(
     except AgentError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
+        logger.exception("Unhandled error while processing /api/query")
         raise HTTPException(
             status_code=500,
             detail="The agent could not complete the request. Check the API and database configuration.",
